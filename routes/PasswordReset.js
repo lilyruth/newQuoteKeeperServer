@@ -74,7 +74,6 @@ resetPasswordRouter.post('/request', (req, res) => {
  }
 })
 
-
 resetPasswordRouter.post('/reset', (req, res) => {
  
  let { email, resetString, password } = req.body;
