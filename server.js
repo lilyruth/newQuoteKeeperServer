@@ -1,6 +1,58 @@
 //MongoDB
 require('./config/db');
 
+const Cache = require('./models/Cache');
+
+//API
+const API = 'https://zenquotes.io/api/quotes/'
+
+// Get Quote Cache
+async function getQuotesInitial() {
+  let response = await fetch(API)
+  response = await response.json()
+  let quotes = response.map(record => {
+    return [record.q, record.a]
+  })
+  let name = '1'
+  const newCache = new Cache({
+    name, 
+    quotes
+   })
+
+   newCache.save()
+   .then(result => console.log(result))
+   .catch(err => {
+    console.log(err)
+   })
+ }
+
+ getQuotesInitial();
+
+ async function getQuotesInterval() {
+  let response = await fetch(API)
+  response = await response.json()
+  let quotes = response.map(record => {
+    return [record.q, record.a]
+  })
+  Cache.findOneAndDelete({name: '1'})
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
+  let name = '1'
+  const newCache = new Cache({
+    name,
+    quotes
+  })
+  newCache.save()
+  .then(result => console.log(result))
+  .catch(err => console.log(err))
+ }
+
+ function quoteInterval() {
+  getQuotesInterval();
+}
+
+ setInterval(quoteInterval, 3600000)
+ 
 //Express
 const express = require('express');
 const cors = require('cors')
@@ -42,6 +94,14 @@ if (port == null || port == "") {
 const UserRouter = require('./routes/User');
 const QuoteRouter = require('./routes/Quotes');
 const PasswordResetRouter = require('./routes/PasswordReset');
+
+app.get('/quotebank', (req, res) => {
+  Cache.findOne({name: '1'})
+  .then(result => {
+    res.json(result.quotes)
+  })
+  .catch(err => console.log(err))
+})
 
 app.use('/users', UserRouter);
 app.use('/quotes', QuoteRouter);
