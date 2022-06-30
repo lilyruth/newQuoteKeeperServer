@@ -46,7 +46,7 @@ else {
      newUser.save()
      .then(res.status(201).send('registration successful'))
      .catch(err => {
-      res.json(err)
+      res.send(err)
       console.log(err)
      })
     })
@@ -56,7 +56,7 @@ else {
  })
  .catch(err => {
   console.log(err)
-  res.json(err)
+  res.send(err)
  })
 }
 })
