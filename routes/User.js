@@ -18,6 +18,19 @@ router.post('/register', (req, res) => {
  email = email.trim();
  password = password.trim();
 
+const NAME_REGEX = /^[a-zA-Z][a-zA-Z-_' ]{1,23}$/
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
+const name_result = NAME_REGEX.test(name);
+const email_result = EMAIL_REGEX.test(email);
+const password_result = PASSWORD_REGEX.test(password);
+
+if (!name_result || !email_result || !password_result) {
+ res.status(403).send()
+}
+
+
  User.findOne({ email })
   .then(result => {
    if (result) {
