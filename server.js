@@ -15,7 +15,7 @@ app.use(express.json());
 // cross origin resource sharing
 
 // allowed sites
-// const allowed = ['https://www.quotekeeper.netlify.app', 'https://quotekeeper.netlify.app', 'http://127.0.0.1', '127.0.0.1', 'http://localhost', 'http://localhost:3000', 'http://localhost:3001']
+// const allowed = ['https://www.quotekeeper.netlify.app', 'https://quotekeeper.netlify.app']
 
 //if origin is not in allowed sites 
 /* const corsOptions = {
@@ -41,9 +41,11 @@ if (port == null || port == "") {
 
 const UserRouter = require('./routes/User');
 const QuoteRouter = require('./routes/Quotes');
+const PasswordResetRouter = require('./routes/PasswordReset');
 
 app.use('/users', UserRouter);
 app.use('/quotes', QuoteRouter);
+app.use('/passwordreset', PasswordResetRouter);
 
 //be able to see the error in the browser
 app.use(function (err, req, res, next) {

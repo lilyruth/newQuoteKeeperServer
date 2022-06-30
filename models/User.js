@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const {Quotes, QuoteSchema} = require('./Quote.js')
+const {PasswordReset, PasswordResetSchema} = require ('./PasswordReset')
+
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
