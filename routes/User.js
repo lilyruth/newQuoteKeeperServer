@@ -83,7 +83,7 @@ router.post('/login', (req, res) => {
         { expiresIn: '7200s' }
        );
        let id = record.id
-       res.status(200).send({accessToken, id})
+       res.status(200).json({accessToken, id})
       } else {
        res.status(403).send('invalid password entered' )
       }
