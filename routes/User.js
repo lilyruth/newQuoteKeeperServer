@@ -29,39 +29,41 @@ const password_result = PASSWORD_REGEX.test(password);
 if (!name_result || !email_result || !password_result) {
  res.status(403).send()
 }
-
-
+else {
  User.findOne({ email })
-  .then(result => {
-   if (result) {
-    res.json({ message: 'The email aready exists' })
-   } else if (!result) {
-    bcrypt.genSalt(10, function (err, salt) {
-     bcrypt.hash(password, salt, function (err, hash) {
-      const newUser = new User({
-       name,
-       email,
-       password: hash
-      })
+ .then(result => {
+  if (result) {
+   res.json({ message: 'The email aready exists' })
+  } else if (!result) {
+   bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(password, salt, function (err, hash) {
+     const newUser = new User({
+      name,
+      email,
+      password: hash
+     })
 
-      newUser.save().then(record => {
-       res.json({ status: 'success', message: 'registration successful'})
+     newUser.save().then(record => {
+      res.json({ status: 'success', message: 'registration successful'})
 
-      }).catch(err => {
-       res.json(err)
-       console.log(err)
-      })
+     }).catch(err => {
+      res.json(err)
+      console.log(err)
      })
     })
+   })
 
-   }
-  })
-  .catch(err => {
-   console.log(err)
-   res.json(err)
-  })
-
+  }
+ })
+ .catch(err => {
+  console.log(err)
+  res.json(err)
+ })
+}
 })
+
+
+ 
 
 // Sign in 
 router.post('/login', (req, res) => {
