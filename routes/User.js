@@ -43,10 +43,9 @@ else {
       password: hash
      })
 
-     newUser.save().then(record => {
-      res.status(201).send('registration successful')
-
-     }).catch(err => {
+     newUser.save()
+     .then(res.status(201).send('registration successful'))
+     .catch(err => {
       res.json(err)
       console.log(err)
      })
