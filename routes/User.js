@@ -33,7 +33,7 @@ else {
  User.findOne({ email })
  .then(result => {
   if (result) {
-   res.json({ message: 'The email aready exists' })
+   res.status(409).send('The email aready exists')
   } else if (!result) {
    bcrypt.genSalt(10, function (err, salt) {
     bcrypt.hash(password, salt, function (err, hash) {
@@ -44,7 +44,7 @@ else {
      })
 
      newUser.save().then(record => {
-      res.json({ status: 'success', message: 'registration successful'})
+      res.status(201).send('registration successful')
 
      }).catch(err => {
       res.json(err)
@@ -84,9 +84,9 @@ router.post('/login', (req, res) => {
         { expiresIn: '7200s' }
        );
        let id = record.id
-       res.json({ status: 'success', message: 'login successful', accessToken, id })
+       res.status(200).send({message: 'login successful', accessToken, id})
       } else {
-       res.json({ status: 'failed', message: 'invalid password entered' })
+       res.status(403).send('invalid password entered' )
       }
      })
      .catch(err => {
@@ -94,7 +94,7 @@ router.post('/login', (req, res) => {
       console.log(err)
      })
    } else {
-    res.json({ status: 'failed', message: 'no user found' })
+    res.status(404).send('no user found')
    }
   })
   .catch(err => {

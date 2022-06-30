@@ -32,7 +32,11 @@ resetPasswordRouter.post('/request', (req, res) => {
 
    User.findOne({ email })
     .then(result => {
+     if (!result) {
+      res.status(404).send('email not found')
+     }
 
+     else {
      let user = result.email;
      console.log(result.email, reset)
 
@@ -50,18 +54,19 @@ resetPasswordRouter.post('/request', (req, res) => {
       .then(result => {
        transporter.sendMail(mailOptions)
         .then(() => {
-         res.json({ message: 'password reset email sent' })
+         res.status(200).send('password reset email sent')
         })
         .catch(err => console.log(err, 'reset email failed to send'))
       })
       .catch(err => {
        console.log(err)
       })
-
+     }
     })
     .catch(err => {
      console.log(err)
     })
+ 
   })
  })
  
@@ -77,6 +82,15 @@ resetPasswordRouter.post('/request', (req, res) => {
 resetPasswordRouter.post('/reset', (req, res) => {
  
  let { email, resetString, password } = req.body;
+
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const password_result = PASSWORD_REGEX.test(password);
+
+if (!password_result) {
+ res.status(403).send('Enter a valid password')
+}
+
+else {
  
  PasswordReset.findOne({ email })
   .then(result => {
@@ -109,21 +123,16 @@ resetPasswordRouter.post('/reset', (req, res) => {
      })
    }
    else {
-    res.json({
-     status: 'failed',
-     message: 'did not locate an existing password request record'
-    })
+    res.status(404).send('could not locate record')
    }
   })
   .catch(err => {
    console.log(err)
-   res.json({
-    status: 'failed',
-    message: 'did not locate an existing password request record'
-   })
+   res.status(404).send('could not locate record')
   })
   PasswordReset.findOneAndDelete({email})
   .catch(err => console.log(err))
+ }
 })
 
 

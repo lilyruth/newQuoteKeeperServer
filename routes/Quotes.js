@@ -10,7 +10,7 @@ quoteRouter.route('/:userId')
   if (!response) {
    res.status(404).send(); 
   } else {
-   res.json(response.quotes); 
+   res.status(200).send(response.quotes); 
   }
  }).catch(err => {
   res.send(err)
@@ -48,7 +48,7 @@ quoteRouter.route('/:userId/random')
   } else {
     let length = response.quotes.length;
     let index = Math.floor(Math.random() * length)
-    res.json(response.quotes[index])
+    res.status(200).send(response.quotes[index])
    }
   }).catch(err => {
    res.json(err)
