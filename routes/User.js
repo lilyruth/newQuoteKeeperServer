@@ -1,12 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer')
 require('dotenv').config();
 
 
 // BcryptJS
 const bcrypt = require('bcryptjs');
 let salt = bcrypt.genSaltSync(10);
+
+// transporter
+const transporter = nodemailer.createTransport({
+  service: "outlook",
+  auth: {
+   user: process.env.AUTH_EMAIL,
+   pass: process.env.AUTH_PASS,
+  },
+ })
 
 //User model 
 const User = require('../models/User');
@@ -44,11 +54,15 @@ else {
      })
 
      newUser.save()
-     .then(res.status(201).send('registration successful'))
+     .then(result => {
+      transporter.sendMail(mailOptions)
+     })
      .catch(err => {
       res.send(err)
       console.log(err)
      })
+     .then(res.status(201).send('registration successful'))
+     .catch(err => console.log(err))
     })
    })
 
@@ -58,6 +72,16 @@ else {
   console.log(err)
   res.send(err)
  })
+
+ //Mail options 
+
+const homepage = 'https://quotekeeper.io'
+const mailOptions = {
+  from: process.env.AUTH_EMAIL,
+  to: email,
+  subject: "Thank you for joining QuoteKeeper!",
+  html: `<p>Thank you for registering for QuoteKeeper!</p><p>Click <a href=${homepage}>here</a> to login.</p><p><em>What you get by achieving your goals is not as important as what you become by achieving your goals. ~ Henry David Thoreau</em></p>`
+ }
 }
 })
 
@@ -83,7 +107,8 @@ router.post('/login', (req, res) => {
         { expiresIn: '7200s' }
        );
        let id = record.id
-       res.json({accessToken, id})
+       let name = record.name
+       res.json({accessToken, id, name})
       } else {
        res.status(403).send('invalid password entered' )
       }

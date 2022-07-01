@@ -75,7 +75,7 @@ resetPasswordRouter.post('/request', (req, res) => {
   from: process.env.AUTH_EMAIL,
   to: email,
   subject: "QuoteKeeper: Reset your password",
-  html: `<p>You received this email because a reset password link was requested.</p>This link expires in one hour.<p></p><p>Click <a href=${redirectUrl}>here</a> to reset your password.</p><p>Your temporary password is <strong>${reset}</strong>.</p>`
+  html: `<p>You received this email because a reset password link was requested.</p><p>This link expires in one hour.</p><p>Click <a href=${redirectUrl}>here</a> to reset your password.</p><p>Your temporary password is <strong>${reset}</strong>.</p>`
  }
 })
 
