@@ -45,17 +45,10 @@ async function getQuotesInitial() {
     let quotes = response.data.map(record => {
       return [record.q, record.a]
       })
-  Cache.findOneAndDelete({name: '1'})
+  Cache.findOneAndUpdate({name: '1'}, {quotes})
   .then(result => console.log(result))
   .catch(err => console.log(err))
-  let name = '1'
-  const newCache = new Cache({
-    name,
-    quotes
-  })
-  newCache.save()
-  .then(result => console.log(result))
-  .catch(err => console.log(err))
+
  }
 
  catch(err) {
