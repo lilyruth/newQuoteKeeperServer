@@ -1,4 +1,15 @@
 const axios = require('axios')
+const rateLimit = require('express-rate-limit')
+
+// Rate Limiter 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100,
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+
+
 
 //MongoDB
 require('./config/db');
@@ -65,6 +76,9 @@ async function getQuotesInitial() {
 const express = require('express');
 const cors = require('cors')
 const app = express();
+
+//rate limiter
+app.use(limiter)
 
 // for form data
 app.use(express.urlencoded({extended: false}))
