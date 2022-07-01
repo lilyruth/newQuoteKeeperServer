@@ -1,3 +1,5 @@
+const axios = require('axios')
+
 //MongoDB
 require('./config/db');
 
@@ -8,32 +10,41 @@ const API = 'https://zenquotes.io/api/quotes/'
 
 // Get Quote Cache
 async function getQuotesInitial() {
-  let response = await fetch(API)
-  response = await response.json()
-  let quotes = response.map(record => {
-    return [record.q, record.a]
-  })
-  let name = '1'
-  const newCache = new Cache({
-    name, 
-    quotes
-   })
 
-   newCache.save()
-   .then(result => console.log(result))
-   .catch(err => {
+  try {
+    let response = await axios.get(API)
+
+    let quotes = response.data.map(record => {
+    return [record.q, record.a]
+    })
+
+    let name = '1'
+    const newCache = new Cache({
+      name, 
+      quotes
+     })
+  
+     newCache.save()
+     .then(result => console.log(result))
+     .catch(err => {
+      console.log(err)
+     })
+  }
+
+  catch(err) {
     console.log(err)
-   })
+  }
+  
  }
 
  getQuotesInitial();
 
  async function getQuotesInterval() {
-  let response = await fetch(API)
-  response = await response.json()
-  let quotes = response.map(record => {
-    return [record.q, record.a]
-  })
+  try {
+    let response = await axios.get(API)
+    let quotes = response.data.map(record => {
+      return [record.q, record.a]
+      })
   Cache.findOneAndDelete({name: '1'})
   .then(result => console.log(result))
   .catch(err => console.log(err))
@@ -47,6 +58,10 @@ async function getQuotesInitial() {
   .catch(err => console.log(err))
  }
 
+ catch(err) {
+   console.log(err)
+ }
+ }
  function quoteInterval() {
   getQuotesInterval();
 }
