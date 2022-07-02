@@ -26,8 +26,8 @@ async function getQuotesInitial() {
     let response = await axios.get(API)
 
     let quotes = response.data.map(record => {
-    return [record.q, record.a]
-    })
+       return [record.q, record.a]
+    }).filter(record => !record[1].includes('Lincoln'))
 
     let name = '1'
     const newCache = new Cache({
@@ -55,7 +55,7 @@ async function getQuotesInitial() {
     let response = await axios.get(API)
     let quotes = response.data.map(record => {
       return [record.q, record.a]
-      })
+      }).filter(record => !record[1].includes('Lincoln'))
   Cache.findOneAndUpdate({name: '1'}, {quotes})
   .then(result => console.log(result))
   .catch(err => console.log(err))
