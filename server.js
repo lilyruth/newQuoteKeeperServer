@@ -77,6 +77,12 @@ const express = require('express');
 const cors = require('cors')
 const app = express();
 
+// development prevent caching
+app.use(function(req,res,next) {
+  req.headers['if-none-match'] = 'no-match-for-this';
+  next()
+})
+
 //rate limiter
 app.use(limiter)
 
