@@ -38,7 +38,7 @@ resetPasswordRouter.post('/request', (req, res) => {
 
      else {
      let user = result.email;
-     console.log(result.email, reset)
+     //console.log(result.email, reset)
 
      PasswordReset.findOneAndDelete({ userId: user })
       .catch(err => console.log(err))
