@@ -130,15 +130,44 @@ router.post('/login', (req, res) => {
 })
 
 router.route('/delete')
-.delete(verifyJWT, (req, res) => {
+.post(verifyJWT, (req, res) => {
 
-  let email = req.body.email
+  let { email, password } = req.body;
 
-  User.deleteOne({email})
-  .then(res.json({message: 'User account successfully deleted.'}))
-  .catch(err => {
-    console.log(err)
-  })
+  email = email.trim();
+  password = password.trim();
+
+  User.findOne({ email })
+    .then(record => {
+      if (record) {
+        let hash = record.password;
+        bcrypt.compare(password, hash)
+          .then(result => {
+            if (result) {
+              User.deleteOne({email})
+              .then(res.json({message: 'User account successfully deleted.'}))
+              .catch(err => {
+                console.log(err)
+              })
+            } else {
+              res.status(403).send('invalid password entered')
+            }
+          })
+          .catch(err => {
+            res.json(err)
+            console.log(err)
+          })
+      } else {
+        res.status(404).send('no user found')
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      res.json(err)
+    })
+
+
+
 
 })
   
