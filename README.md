@@ -1,6 +1,6 @@
 # Quote Keeper Server
 
-This is the new and better backend of my Nucamp Honors project and it utilizes Node JS, Express, Mongoose and MongoDB (https://github.com/lilyruth/pocket-quotes-server)
+This is the new and better backend of my Nucamp Honors project (https://github.com/lilyruth/pocket-quotes-server) and it utilizes Node JS, Express, Mongoose and MongoDB 
 
 The front end repo is https://github.com/lilyruth/QuoteKeeperClient
 
@@ -9,6 +9,8 @@ The deployed project is at https://quotekeeper.io.
 Users can:
 -View quotes without registering
 -Register (will receive a confirmation email) 
+-Log In
+-Log Out
 -Save quotes
 -View a paginated list of saved quotes
 -View individual quotes
