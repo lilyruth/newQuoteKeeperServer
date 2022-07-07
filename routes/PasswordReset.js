@@ -24,7 +24,7 @@ let salt = bcrypt.genSaltSync(10);
 
 resetPasswordRouter.post('/request', (req, res) => {
  let { email} = req.body;
- let redirectUrl = 'https://quotekeeper.io/passwordreset/reset'
+ let redirectUrl = 'https://quotekeeper.io/reset'
  email = email.trim();
  let reset = uuidv4().replace(/-/g, '').slice(0, 14)
 
