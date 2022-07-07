@@ -25,7 +25,7 @@ let salt = bcrypt.genSaltSync(10);
 resetPasswordRouter.post('/request', (req, res) => {
  let { email} = req.body;
  let redirectUrl = 'https://quotekeeper.io/reset'
- email = email.trim();
+ email = email.trim().toLowerCase();
  let reset = uuidv4().replace(/-/g, '').slice(0, 14)
 
  bcrypt.genSalt(10, function (err, salt) {
@@ -83,6 +83,7 @@ resetPasswordRouter.post('/request', (req, res) => {
 resetPasswordRouter.post('/reset', (req, res) => {
  
  let { email, resetString, password } = req.body;
+ email = email.trim().toLowerCase();
 
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const password_result = PASSWORD_REGEX.test(password);

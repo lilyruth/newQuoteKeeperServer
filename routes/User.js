@@ -26,7 +26,7 @@ const User = require('../models/User');
 router.post('/register', (req, res) => {
   let { name, email, password } = req.body;
   name = name.trim();
-  email = email.trim();
+  email = email.trim().toLowerCase();
   password = password.trim();
 
   const NAME_REGEX = /^[a-zA-Z][a-zA-Z-_' ]{1,23}$/
@@ -93,7 +93,7 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
   let { email, password } = req.body;
 
-  email = email.trim();
+  email = email.trim().toLowerCase();
   password = password.trim();
 
   User.findOne({ email })
@@ -134,7 +134,7 @@ router.route('/delete')
 
   let { email, password } = req.body;
 
-  email = email.trim();
+  email = email.trim().toLowerCase();
   password = password.trim();
 
   User.findOne({ email })
