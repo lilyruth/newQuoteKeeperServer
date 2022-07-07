@@ -103,10 +103,10 @@ const corsOptions = {
  optionsSuccessStatus: 200
 }
 
-app.use(cors(corsOptions))
+//app.use(cors(corsOptions))
 
 // add back in options before deploying
-// app.use(cors())
+app.use(cors())
 
 let port = process.env.PORT;
 if (port == null || port == "") {
