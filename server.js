@@ -89,10 +89,10 @@ app.use(express.json());
 // cross origin resource sharing
 
 // allowed sites
-// const allowed = ['https://www.quotekeeper.netlify.app', 'https://quotekeeper.netlify.app']
+const allowed = ['https://www.quotekeeper.netlify.app', 'https://quotekeeper.netlify.app', 'https://quotekeeper.io', 'https://www.quotekeeper.io']
 
 //if origin is not in allowed sites 
-/* const corsOptions = {
+const corsOptions = {
  origin: (origin, callback) => {
   if (allowed.indexOf(origin) !== -1) {
    callback(null, true)
@@ -104,9 +104,9 @@ app.use(express.json());
 }
 
 app.use(cors(corsOptions))
-*/
+
 // add back in options before deploying
-app.use(cors())
+// app.use(cors())
 
 let port = process.env.PORT;
 if (port == null || port == "") {
