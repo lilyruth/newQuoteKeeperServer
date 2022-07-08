@@ -4,6 +4,8 @@ This is the new and better backend of my Nucamp Honors project (https://github.c
 
 The front end repo is https://github.com/lilyruth/QuoteKeeperClient
 
+The YouTube demo is: https://youtu.be/qjG5cuszlDo.
+
 The deployed project is at https://quotekeeper.io. 
 
 Users can:
